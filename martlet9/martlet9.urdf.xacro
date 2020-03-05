@@ -1,0 +1,288 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="martlet9">
+
+  <xacro:property name="base_height" value="70"/>
+  <xacro:property name="base_radius" value="1.85"/>
+  <xacro:property name="base_mass" value="200000"/>
+  <xacro:property name="base_inertia_radial"
+                  value="${base_mass * (0.25 * base_radius * base_radius + base_height * base_height / 12)}"/>
+  <xacro:property name="base_inertia" value="${0.5 * base_mass * base_radius * base_radius}"/>
+  <xacro:property name="steer_wheel_radius" value="${base_radius * 1.1}"/>
+  <xacro:property name="steer_wheel_height" value="0.5"/>
+  <xacro:property name="steer_wheel_mass" value="100"/>
+  <xacro:property name="steer_gun_size" value="${0.5 * steer_wheel_height}"/>
+  <xacro:property name="steer_gun_length" value="1"/>
+  <xacro:property name="steer_gun_mass" value="75"/>
+  <xacro:property name="steer1_wheel_z" value="20"/>
+  <xacro:property name="steer_gun_x" value="${steer_wheel_radius + steer_gun_length / 2}"/>
+  <xacro:property name="thruster_casing_mass" value="200000"/>
+  <xacro:property name="thruster_casing_r" value="1.7"/>
+  <xacro:property name="thruster_casing_l" value="8"/>
+  <xacro:property name="thruster_mass" value="175000"/>
+  <xacro:property name="thruster_r" value="1.2"/>
+  <xacro:property name="thruster_l" value="4"/>
+  <xacro:property name="thruster_casing_inertia_radial"
+                  value="${thruster_casing_mass * (0.25 * thruster_casing_r * thruster_casing_r + thruster_casing_l * thruster_casing_l / 12)}"/>
+  <xacro:property name="thruster_casing_inertia"
+                  value="${thruster_casing_mass * 0.5 * thruster_casing_r * thruster_casing_r}"/>
+  <xacro:property name="thruster_inertia_radial"
+                  value="${thruster_mass * (0.25 * thruster_r * thruster_r + thruster_l * thruster_l / 12)}"/>
+  <xacro:property name="thruster_inertia"
+                  value="${thruster_mass * 0.5 * thruster_r * thruster_r}"/>
+
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+  <material name="darkgrey">
+    <color rgba="0.1 0.1 0.1 1"/>
+  </material>
+  <material name="grey">
+    <color rgba="0.4 0.4 0.4 0.9"/>
+  </material>
+
+  <link name="base">
+    <visual>
+      <geometry>
+        <cylinder length="${base_height}" radius="${base_radius}"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="${base_height}" radius="${base_radius}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${base_mass}"/>
+      <inertia ixx="${base_inertia_radial}" ixy="0" ixz="0" iyy="${base_inertia_radial}" iyz="0" izz="${base_inertia}"/>
+    </inertial>
+  </link>
+  <link name="thruster_casing">
+    <visual>
+      <geometry>
+        <cylinder length="${thruster_casing_l}" radius="${thruster_casing_r}"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="${thruster_casing_l" radius="${thruster_casing_r}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${thruster_casing_mass}"/>
+      <inertia ixx="${thruster_casing_intertia_radial" ixy="0" ixz="0" iyy="${thruster_casing_inertia_radial}" iyz="0" izz="${thruster_casing_inertia}"/>
+    </inertial>
+  </link>
+  <link name="thruster">
+    <visual>
+      <geometry>
+        <cylinder length="${thruster_l}" radius="${thruster_r}"/>
+      </geometry>
+      <material name="darkgrey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="${thruster_l}" radius="${thruster_r}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${thruster_mass}"/>
+      <inertia ixx="${thruster_inertia_radial}" ixy="0" ixz="0" iyy="${thruster_inertia_radial}" iyz="0" izz="${thruster_inertia}"/>
+    </inertial>
+  </link>
+  <link name="steer1_wheel">
+    <visual>
+      <geometry>
+        <cylinder length="${steer_wheel_height}" radius="${steer_wheel_radius}"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="${steer_wheel_height}" radius="${steer_wheel_radius}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${steer_wheel_mass}"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="steer1_gun">
+    <visual>
+      <geometry>
+        <box size="${steer_gun_length} ${steer_gun_size} ${steer_gun_size}"/>
+      </geometry>
+      <material name="darkgrey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${steer_gun_length} ${steer_gun_size} ${steer_gun_size}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${steer_gun_mass}"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="leg1">
+    <visual>
+      <geometry>
+        <box size="12 0.3 0.3"/>
+      </geometry>
+      <origin rpy="0 0.524 0"/>
+      <material name="darkgrey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="12 0.3 0.3"/>
+      </geometry>
+      <origin rpy="0 0.524 0"/>
+    </collision>
+    <inertial>
+      <mass value="1000"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="leg2">
+    <visual>
+      <geometry>
+        <box size="12 0.3 0.3"/>
+      </geometry>
+      <origin rpy="0 0.524 2.094"/>
+      <material name="darkgrey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="12 0.3 0.3"/>
+      </geometry>
+      <origin rpy="0 0.524 2.094"/>
+    </collision>
+    <inertial>
+      <mass value="1000"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="leg3">
+    <visual>
+      <geometry>
+        <box size="12 0.3 0.3"/>
+      </geometry>
+      <origin rpy="0 0.524 4.189"/>
+      <material name="darkgrey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="12 0.3 0.3"/>
+      </geometry>
+      <origin rpy="0 0.524 4.189"/>
+    </collision>
+    <inertial>
+      <mass value="1000"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="ball1">
+    <visual>
+      <geometry>
+        <sphere radius="1.0"/>
+      </geometry>
+      <material name="darkgrey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="1.0"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="10000"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="ball2">
+    <visual>
+      <geometry>
+        <sphere radius="1.0"/>
+      </geometry>
+      <material name="darkgrey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="1.0"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="10000"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="ball3">
+    <visual>
+      <geometry>
+        <sphere radius="1.0"/>
+      </geometry>
+      <material name="darkgrey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="1.0"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="10000"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_leg1" type="fixed">
+    <parent link="base"/>
+    <child link="leg1"/>
+    <origin xyz="6.0 0 -34.5"/>
+  </joint>
+  <joint name="base_to_leg2" type="fixed">
+    <parent link="base"/>
+    <child link="leg2"/>
+    <origin xyz="-3.0 5.20 -34.5"/>
+  </joint>
+  <joint name="base_to_leg3" type="fixed">
+    <parent link="base"/>
+    <child link="leg3"/>
+    <origin xyz="-3.0 -5.20 -34.5"/>
+  </joint>
+  <joint name="base_to_thruster_casing" type="fixed">
+    <parent link="base"/>
+    <child link="thruster_casing"/>
+    <origin xyz="0 0 -32"/>
+  </joint>
+  <joint name="thruster_casing_to_thruster" type="fixed">
+    <parent link="thruster_casing"/>
+    <child link="thruster"/>
+    <origin xyz="0 0 -3"/>
+  </joint>
+  <joint name="base_to_steer1_wheel" type="continuous">
+    <parent link="base"/>
+    <child link="steer1_wheel"/>
+    <origin xyz="0 0 ${steer1_wheel_z}"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <joint name="steer1_wheel_to_steer1_gun" type="fixed">
+    <parent link="steer1_wheel"/>
+    <child link="steer1_gun"/>
+    <origin xyz="${steer_gun_x} 0 0"/>
+  </joint>
+  <joint name="leg1_to_ball" type="fixed">
+    <parent link="leg1"/>
+    <child link="ball1"/>
+    <origin xyz="4.5 0 -3"/>
+  </joint>
+  <joint name="leg2_to_ball" type="fixed">
+    <parent link="leg2"/>
+    <child link="ball2"/>
+    <origin xyz="-2.25 3.89 -3"/>
+  </joint>
+  <joint name="leg3_to_ball" type="fixed">
+    <parent link="leg3"/>
+    <child link="ball3"/>
+    <origin xyz="-2.25 -3.89 -3"/>
+  </joint>
+</robot>
