@@ -5,7 +5,7 @@ Martlet9 is a simple rocket with roughly the same dimensions as the [SpaceX Falc
 "steering thruster" towards the top that rotates about the axis of the rocket. Here's what it looks
 like:
 
-<div style="text-align: center;">
+<div style="display: block; margin: 0 auto;">
   <img src="scrot.png"></img>
 </div>
 
