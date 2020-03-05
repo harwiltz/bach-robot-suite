@@ -2,10 +2,12 @@
 
 Martlet9 is a simple rocket with roughly the same dimensions as the [SpaceX Falcon
 9](https://www.spacex.com/falcon9). It has three fixed legs for landing, a giant thruster, and a
-``steering thruster" towards the top that rotates about the axis of the rocket. Here's what it looks
+"steering thruster" towards the top that rotates about the axis of the rocket. Here's what it looks
 like:
 
-![The Martlet9 in all its glory](scrot.png)
+<div style="text-align: center;">
+  <img src="scrot.png"></img>
+</div>
 
 I am currently working on creating a gym environment for landing the Martlet9 safely starting at a
 random orientation.
