@@ -19,7 +19,7 @@ p.setAdditionalSearchPath(pbd.getDataPath())
 p.setGravity(0, 0, -10)
 plane_id = p.loadURDF("plane.urdf", [0, 0, -4])
 water_orientation = p.getQuaternionFromEuler([np.pi/2, 0, 0])
-water_id = p.loadURDF("water.urdf", [0, 0, -1], water_orientation)
+water_id = p.loadURDF("../water.urdf", [0, 0, -1], water_orientation)
 p.changeVisualShape(water_id, -1, rgbaColor=[0.2, 0.2, 0.6, 0.7])
 pad_id = p.loadURDF("landingpad.urdf", [0, 0, -0.5])
 start_pos = [0, 0, 50]
