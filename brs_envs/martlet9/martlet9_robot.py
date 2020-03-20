@@ -8,9 +8,9 @@ import brs_data
 from brs_envs.robot import URDFRobot
 
 class Martlet9Robot(URDFRobot):
-    MAX_THRUST = 1e7
+    MAX_THRUST = 7e6
     MAX_STEER = 10
-    MAX_SHOOT = 1e6
+    MAX_SHOOT = 1e5
     COSTS = np.array([2., 0., 1.]) / np.array([MAX_THRUST, MAX_STEER, MAX_SHOOT])
 
     observation_space = spaces.Box(-np.inf, np.inf, shape=(20,))

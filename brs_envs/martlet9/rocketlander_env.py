@@ -25,7 +25,7 @@ class RocketLanderEnv(BaseURDFBulletEnv):
                  max_roll_offset=0.5,
                  max_pitch_offset=0.5,
                  max_yaw_offset=0.1,
-                 mean_robot_start_height=200):
+                 mean_robot_start_height=100):
         BaseURDFBulletEnv.__init__(self, render)
         self._feet_landed = set()
         self._gravity = gravity
@@ -98,7 +98,7 @@ class RocketLanderEnv(BaseURDFBulletEnv):
             r = 1.0
             g = 0.8 * control[0]
             b = 0.3
-            a = min(1.0, 0.2 * control[0])
+            a = min(1.0, 0.9 * control[0])
             self.p.changeVisualShape(self.robot.uid,
                                      self.robot.thruster_fire_id,
                                      rgbaColor=[r, g, b, a])
