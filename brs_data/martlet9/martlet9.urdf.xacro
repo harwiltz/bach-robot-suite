@@ -18,6 +18,7 @@
   <xacro:property name="thruster_casing_mass" value="100000"/>
   <xacro:property name="thruster_casing_r" value="1.7"/>
   <xacro:property name="thruster_casing_l" value="8"/>
+  <xacro:property name="thruster_casing_z" value="-32"/>
   <xacro:property name="thruster_mass" value="75000"/>
   <xacro:property name="thruster_r" value="1.2"/>
   <xacro:property name="thruster_l" value="4"/>
@@ -29,6 +30,12 @@
                   value="${thruster_mass * (0.25 * thruster_r * thruster_r + thruster_l * thruster_l / 12)}"/>
   <xacro:property name="thruster_inertia"
                   value="${thruster_mass * 0.5 * thruster_r * thruster_r}"/>
+  <xacro:property name="thruster_fire_r" value="${thruster_r * 0.9}"/>
+  <xacro:property name="thruster_fire_l" value="5"/>
+  <xacro:property name="thruster_fire_z" value="${-0.5 - thruster_l/2 - thruster_fire_l/2}"/>
+  <xacro:property name="steering_smoke_r" value="${steer_gun_size * 0.9}"/>
+  <xacro:property name="steering_smoke_l" value="5"/>
+  <xacro:property name="steering_smoke_x" value="${0.5 + steer_gun_length / 2 + steering_smoke_l / 2}"/>
 
   <material name="white">
     <color rgba="1 1 1 1"/>
@@ -38,6 +45,12 @@
   </material>
   <material name="grey">
     <color rgba="0.4 0.4 0.4 0.9"/>
+  </material>
+  <material name="thruster_fire_mat">
+    <color rgba="1.0 1.0 0.3 0.0"/>
+  </material>
+  <material name="steering_smoke_mat">
+    <color rgba="0.3 0.3 0.3 0.0"/>
   </material>
 
   <link name="base">
@@ -91,6 +104,18 @@
       <inertia ixx="${thruster_inertia_radial}" ixy="0" ixz="0" iyy="${thruster_inertia_radial}" iyz="0" izz="${thruster_inertia}"/>
     </inertial>
   </link>
+  <link name="thruster_fire">
+    <visual>
+      <geometry>
+        <cylinder length="${thruster_fire_l}" radius="${thruster_fire_r}"/>
+      </geometry>
+      <material name="thruster_fire_mat"/>
+    </visual>
+    <inertial>
+      <mass value="0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
   <link name="steer1_wheel">
     <visual>
       <geometry>
@@ -122,6 +147,19 @@
     </collision>
     <inertial>
       <mass value="${steer_gun_mass}"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="steer1_smoke">
+    <visual>
+      <geometry>
+        <cylinder length="${steering_smoke_l}" radius="${steering_smoke_r}"/>
+      </geometry>
+      <origin rpy="0 1.57 0"/>
+      <material name="steering_smoke_mat"/>
+    </visual>
+    <inertial>
+      <mass value="0"/>
       <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
     </inertial>
   </link>
@@ -252,12 +290,17 @@
   <joint name="base_to_thruster_casing" type="fixed">
     <parent link="base"/>
     <child link="thruster_casing"/>
-    <origin xyz="0 0 -32"/>
+    <origin xyz="0 0 ${thruster_casing_z}"/>
   </joint>
   <joint name="thruster_casing_to_thruster" type="fixed">
     <parent link="thruster_casing"/>
     <child link="thruster"/>
     <origin xyz="0 0 -3"/>
+  </joint>
+  <joint name="thruster_to_fire" type="fixed">
+    <parent link="thruster"/>
+    <child link="thruster_fire"/>
+    <origin xyz="0 0 ${thruster_fire_z}"/>
   </joint>
   <joint name="base_to_steer1_wheel" type="continuous">
     <parent link="base"/>
@@ -269,6 +312,11 @@
     <parent link="steer1_wheel"/>
     <child link="steer1_gun"/>
     <origin xyz="${steer_gun_x} 0 0"/>
+  </joint>
+  <joint name="steer1_gun_to_smoke" type="fixed">
+    <parent link="steer1_gun"/>
+    <child link="steer1_smoke"/>
+    <origin xyz="${steering_smoke_x} 0 0"/>
   </joint>
   <joint name="leg1_to_ball" type="fixed">
     <parent link="leg1"/>

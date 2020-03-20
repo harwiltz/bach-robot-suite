@@ -13,6 +13,12 @@
   <material name="grey">
     <color rgba="0.4 0.4 0.4 0.9"/>
   </material>
+  <material name="thruster_fire_mat">
+    <color rgba="1.0 1.0 0.3 0.0"/>
+  </material>
+  <material name="steering_smoke_mat">
+    <color rgba="0.3 0.3 0.3 0.0"/>
+  </material>
   <link name="base">
     <visual>
       <geometry>
@@ -64,6 +70,18 @@
       <inertia ixx="127000.0" ixy="0" ixz="0" iyy="127000.0" iyz="0" izz="54000.0"/>
     </inertial>
   </link>
+  <link name="thruster_fire">
+    <visual>
+      <geometry>
+        <cylinder length="5" radius="1.08"/>
+      </geometry>
+      <material name="thruster_fire_mat"/>
+    </visual>
+    <inertial>
+      <mass value="0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
   <link name="steer1_wheel">
     <visual>
       <geometry>
@@ -95,6 +113,19 @@
     </collision>
     <inertial>
       <mass value="75"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="steer1_smoke">
+    <visual>
+      <geometry>
+        <cylinder length="5" radius="0.225"/>
+      </geometry>
+      <origin rpy="0 1.57 0"/>
+      <material name="steering_smoke_mat"/>
+    </visual>
+    <inertial>
+      <mass value="0"/>
       <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
     </inertial>
   </link>
@@ -231,6 +262,11 @@
     <child link="thruster"/>
     <origin xyz="0 0 -3"/>
   </joint>
+  <joint name="thruster_to_fire" type="fixed">
+    <parent link="thruster"/>
+    <child link="thruster_fire"/>
+    <origin xyz="0 0 -5.0"/>
+  </joint>
   <joint name="base_to_steer1_wheel" type="continuous">
     <parent link="base"/>
     <child link="steer1_wheel"/>
@@ -241,6 +277,11 @@
     <parent link="steer1_wheel"/>
     <child link="steer1_gun"/>
     <origin xyz="2.535 0 0"/>
+  </joint>
+  <joint name="steer1_gun_to_smoke" type="fixed">
+    <parent link="steer1_gun"/>
+    <child link="steer1_smoke"/>
+    <origin xyz="3.5 0 0"/>
   </joint>
   <joint name="leg1_to_ball" type="fixed">
     <parent link="leg1"/>

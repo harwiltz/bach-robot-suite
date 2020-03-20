@@ -46,6 +46,7 @@ class RocketLanderEnv(BaseURDFBulletEnv):
         state = self.robot.getState(self.p)
         if self.renderable:
             self.moveCamera(state)
+            self.drawArtifacts(a)
 
         collisions_in_water = self.p.getContactPoints(bodyA=self.scene.plane)
         collisions_on_pad = self.p.getContactPoints(bodyA=self.scene.pad)
@@ -91,6 +92,24 @@ class RocketLanderEnv(BaseURDFBulletEnv):
         self.robot.addToScene(self.scene, self.robotStartPos(), self.robotStartOri())
         self._prev_state = self.robot.getState(self.p)
         return self._prev_state
+
+    def drawArtifacts(self, control):
+        if self.robot.thruster_fire_id is not None:
+            r = 1.0
+            g = 0.8 * control[0]
+            b = 0.3
+            a = min(1.0, 0.2 * control[0])
+            self.p.changeVisualShape(self.robot.uid,
+                                     self.robot.thruster_fire_id,
+                                     rgbaColor=[r, g, b, a])
+        if self.robot.steer_smoke_id is not None:
+            r = 0.4
+            g = 0.4
+            b = 0.4
+            a = min(1.0, 0.2 * control[2])
+            self.p.changeVisualShape(self.robot.uid,
+                                     self.robot.steer_smoke_id,
+                                     rgbaColor=[r, g, b, a])
 
     def moveCamera(self, state):
         target = state[:3]

@@ -85,6 +85,8 @@ class Martlet9Robot(URDFRobot):
         steer_wheel_base_joint_name = b"base_to_steer1_wheel"
         gun_steer_wheel_joint_name = b"steer1_wheel_to_steer1_gun"
         thruster_casing_joint_name = b"thruster_casing_to_thruster"
+        thruster_fire_joint_name = b"thruster_to_fire"
+        steer_smoke_joint_name = b"steer1_gun_to_smoke"
         p = bullet_client
         self._initialized_components = True
         num_joints = p.getNumJoints(self.uid)
@@ -96,9 +98,17 @@ class Martlet9Robot(URDFRobot):
                 self._steer_gun_link = joint_info[-1]
             elif joint_info[1] == thruster_casing_joint_name:
                 self._thruster_link = joint_info[-1]
+            elif joint_info[1] == thruster_fire_joint_name:
+                self.thruster_fire_id = i
+            elif joint_info[1] == steer_smoke_joint_name:
+                self.steer_smoke_id = i
         if self._steer_wheel_joint is None:
             print("WARNING: Joint named {} not found!".format(steer_wheel_base_joint_name))
         if self._steer_gun_link is None:
             print("WARNING: Joint named {} not found!".format(gun_steer_wheel_joint_name))
         if self._thruster_link is None:
             print("WARNING: Joint named {} not found!".format(thruster_casing_joint_name))
+        if self.thruster_fire_id is None:
+            print("WARNING: Joint named {} not found!".format(thruster_fire_joint_name))
+        if self.steer_smoke_id is None:
+            print("WARNING: Joint named {} not found!".format(steer_smoke_joint_name))
