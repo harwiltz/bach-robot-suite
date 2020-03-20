@@ -8,6 +8,9 @@ class Robot:
     def getState(self, scene):
         pass
 
+    def describeState(state):
+        pass
+
 class URDFRobot(Robot):
     def __init__(self, path):
         super(URDFRobot, self).__init__()

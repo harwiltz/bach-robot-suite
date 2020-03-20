@@ -19,10 +19,12 @@ class BaseURDFBulletEnv(gym.Env):
             else:
                 self.p = bullet_client.BulletClient()
             self.physicsClientId = self.p._client
-            self.p.resetSimulation()
-        if self.robot is not None:
-            return self.robot.reset()
-        return None
+        self.p.resetSimulation()
+        self.scene = self.initializeScene()
+        self.robot = self.initializeRobot()
+        self.scene.reset()
+        state = self.robot.reset()
+        return state
 
     def close(self):
         if self.ownsPhysicsClient:

@@ -2,7 +2,7 @@ import pybullet
 import gym
 
 class Scene:
-    def __init__(self, bullet_client, gravity, timestep, sticky=1):
+    def __init__(self, bullet_client=None, gravity=9.8, timestep=1/240, sticky=1):
         self.p = bullet_client
         self.timestep = timestep
         self.sticky = sticky
