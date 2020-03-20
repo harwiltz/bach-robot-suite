@@ -26,8 +26,8 @@
       </geometry>
     </collision>
     <inertial>
-      <mass value="200000"/>
-      <inertia ixx="81837791.66666666" ixy="0" ixz="0" iyy="81837791.66666666" iyz="0" izz="342250.0"/>
+      <mass value="400000"/>
+      <inertia ixx="163675583.3333333" ixy="0" ixz="0" iyy="163675583.3333333" iyz="0" izz="684500.0"/>
     </inertial>
   </link>
   <link name="thruster_casing">
@@ -43,8 +43,8 @@
       </geometry>
     </collision>
     <inertial>
-      <mass value="200000"/>
-      <inertia ixx="" ixy="0" ixz="0" iyy="1211166.6666666667" iyz="0" izz="289000.0"/>
+      <mass value="100000"/>
+      <inertia ixx="" ixy="0" ixz="0" iyy="605583.3333333334" iyz="0" izz="144500.0"/>
     </inertial>
   </link>
   <link name="thruster">
@@ -60,8 +60,8 @@
       </geometry>
     </collision>
     <inertial>
-      <mass value="175000"/>
-      <inertia ixx="296333.3333333333" ixy="0" ixz="0" iyy="296333.3333333333" iyz="0" izz="126000.0"/>
+      <mass value="75000"/>
+      <inertia ixx="127000.0" ixy="0" ixz="0" iyy="127000.0" iyz="0" izz="54000.0"/>
     </inertial>
   </link>
   <link name="steer1_wheel">

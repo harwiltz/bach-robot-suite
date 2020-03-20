@@ -3,7 +3,7 @@
 
   <xacro:property name="base_height" value="70"/>
   <xacro:property name="base_radius" value="1.85"/>
-  <xacro:property name="base_mass" value="200000"/>
+  <xacro:property name="base_mass" value="400000"/>
   <xacro:property name="base_inertia_radial"
                   value="${base_mass * (0.25 * base_radius * base_radius + base_height * base_height / 12)}"/>
   <xacro:property name="base_inertia" value="${0.5 * base_mass * base_radius * base_radius}"/>
@@ -15,10 +15,10 @@
   <xacro:property name="steer_gun_mass" value="75"/>
   <xacro:property name="steer1_wheel_z" value="20"/>
   <xacro:property name="steer_gun_x" value="${steer_wheel_radius + steer_gun_length / 2}"/>
-  <xacro:property name="thruster_casing_mass" value="200000"/>
+  <xacro:property name="thruster_casing_mass" value="100000"/>
   <xacro:property name="thruster_casing_r" value="1.7"/>
   <xacro:property name="thruster_casing_l" value="8"/>
-  <xacro:property name="thruster_mass" value="175000"/>
+  <xacro:property name="thruster_mass" value="75000"/>
   <xacro:property name="thruster_r" value="1.2"/>
   <xacro:property name="thruster_l" value="4"/>
   <xacro:property name="thruster_casing_inertia_radial"
