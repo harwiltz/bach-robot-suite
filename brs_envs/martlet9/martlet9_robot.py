@@ -77,6 +77,7 @@ class Martlet9Robot(URDFRobot):
         URDFRobot.addToScene(self, scene, position, orientation)
         if not self._initialized_components:
             self.initializeComponents(scene.p)
+        scene.p.changeDynamics(self.uid, -1, linearDamping=0)
 
     def initializeComponents(self, bullet_client):
         self.foot1_link = 1
