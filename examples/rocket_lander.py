@@ -7,7 +7,7 @@ from sac import SACAgent
 
 import brs_envs
 
-@hydra.main(config_path='config-rocket-lander.yaml')
+@hydra.main(config_path='config-rocket-lander.yaml', strict=False)
 def main(cfg):
     agent = hydra.utils.instantiate(cfg.agent)
     agent.train(cfg.training.steps)

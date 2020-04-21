@@ -11,5 +11,5 @@ agent:
       max_yaw_offset: 0.06
 
 training:
-  steps: 80000
+  steps: 24000
   preview: True
