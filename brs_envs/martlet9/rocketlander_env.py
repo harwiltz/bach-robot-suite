@@ -8,8 +8,8 @@ from brs_envs.rocket_landing_scene import RocketLandingScene
 from brs_envs.martlet9.martlet9_robot import Martlet9Robot
 
 class RocketLanderEnv(BaseURDFBulletEnv):
-    LANDING_SPEED_PENALTY = 1
-    LANDING_SPEED_SURVIVE_THRESH = 15
+    LANDING_SPEED_PENALTY = 5
+    LANDING_SPEED_SURVIVE_THRESH = 10
     DEATH_PENALTY = 500
     LANDED_SPEED_THRESH = 1e-1
     LANDED_BONUS = DEATH_PENALTY
@@ -56,8 +56,6 @@ class RocketLanderEnv(BaseURDFBulletEnv):
                                                       collisions_in_water,
                                                       collisions_on_pad)
         self._prev_state = state
-        # TODO: Remove this
-        control_cost *= 0.1
         return state, -(control_cost + collision_cost), done, {}
 
     def processCollisions(self, state, prev_state, water_col, pad_col):
@@ -69,6 +67,8 @@ class RocketLanderEnv(BaseURDFBulletEnv):
         feet_landed = set()
         prev_state_desc = Martlet9Robot.describeState(prev_state)
         state_desc = Martlet9Robot.describeState(state)
+        if state_desc['position'][-1] >= self._mean_robot_start_height + self._max_vertical_offset:
+            return RocketLanderEnv.DEATH_PENALTY, True
         lateral_dist_to_center = np.linalg.norm(state_desc['position'][:2])
         if lateral_dist_to_center > RocketLanderEnv.POSITION_THRESH:
             return RocketLanderEnv.DEATH_PENALTY, True
@@ -82,18 +82,20 @@ class RocketLanderEnv(BaseURDFBulletEnv):
                 new_landed_feet += 1
             self._feet_landed = feet_landed
         if num_landed_feet == 0: # No collisions, no penalties
-            return -0.02 * np.linalg.norm(state_desc['position']), False
+            return 0.00 * np.linalg.norm(state_desc['position']), False
         speed = np.linalg.norm(state_desc['velocity'])
         prev_speed = np.linalg.norm(prev_state_desc['velocity'])
         if max(speed, prev_speed) > RocketLanderEnv.LANDING_SPEED_SURVIVE_THRESH:
             speed_overshoot = max(speed, prev_speed) - RocketLanderEnv.LANDING_SPEED_SURVIVE_THRESH
-            speed_penalty = RocketLanderEnv.LANDING_SPEED_PENALTY * speed_overshoot
+            speed_penalty = RocketLanderEnv.LANDING_SPEED_PENALTY * (speed_overshoot**2)
             center_bonus = max(1, 10 - lateral_dist_to_center) * RocketLanderEnv.ACCURACY_BONUS
+            print("Landed too fast! Speed was {}".format(max(speed, prev_speed)))
             return RocketLanderEnv.DEATH_PENALTY + speed_penalty - center_bonus, True
         landing_cost = max(speed, prev_speed) * RocketLanderEnv.LANDING_SPEED_PENALTY * min(1, new_landed_feet)
         if (num_landed_feet < 3) or (speed > RocketLanderEnv.LANDED_SPEED_THRESH):
 #            return landing_cost, False
             return 0, False
+        print("Smooth landing!")
         return landing_cost - RocketLanderEnv.LANDED_BONUS, True
 
     def reset(self):

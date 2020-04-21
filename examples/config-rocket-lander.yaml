@@ -1,0 +1,15 @@
+agent:
+  cls: sac.SACAgent
+  params:
+    env: RocketLanderBRSEnv-v0
+    env_kwargs:
+      render: False
+      mean_robot_start_height: 120
+      max_lateral_offset: 0
+      max_pitch_offset: 0.06
+      max_roll_offset: 0.06
+      max_yaw_offset: 0.06
+
+training:
+  steps: 80000
+  preview: True
