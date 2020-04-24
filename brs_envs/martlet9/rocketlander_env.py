@@ -89,13 +89,13 @@ class RocketLanderEnv(BaseURDFBulletEnv):
             speed_overshoot = max(speed, prev_speed) - RocketLanderEnv.LANDING_SPEED_SURVIVE_THRESH
             speed_penalty = RocketLanderEnv.LANDING_SPEED_PENALTY * (speed_overshoot**2)
             center_bonus = max(1, 10 - lateral_dist_to_center) * RocketLanderEnv.ACCURACY_BONUS
-            print("Landed too fast! Speed was {}".format(max(speed, prev_speed)))
+#            print("Landed too fast! Speed was {}".format(max(speed, prev_speed)))
             return RocketLanderEnv.DEATH_PENALTY + speed_penalty - center_bonus, True
         landing_cost = max(speed, prev_speed) * RocketLanderEnv.LANDING_SPEED_PENALTY * min(1, new_landed_feet)
         if (num_landed_feet < 3) or (speed > RocketLanderEnv.LANDED_SPEED_THRESH):
 #            return landing_cost, False
             return 0, False
-        print("Smooth landing!")
+#        print("Smooth landing!")
         return landing_cost - RocketLanderEnv.LANDED_BONUS, True
 
     def reset(self):
