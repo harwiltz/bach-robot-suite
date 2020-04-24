@@ -10,5 +10,8 @@ setup(
     description='Robot simulators and Gym environments with PyBullet',
     license='MIT',
     keywords='reinforcement learning robotics bullet',
+    package_data={
+        "": ["*.urdf", "*.mtl", "*.obj"],
+    },
     packages=setuptools.find_packages(),
 )
